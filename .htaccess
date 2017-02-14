@@ -1,7 +1,7 @@
 RewriteEngine on
 
 RewriteCond %{QUERY_STRING} ^name=(.+)$ [NC]
-RewriteRule ^(.*)$ http://disco.fleo.se/%1\? [NC]
+RewriteRule ^(.*)$ %{REQUEST_URI}%1\? [NC,R]
 
-RewriteCond %{REQUEST_URI} ^/(\w+)$ [NC]
-RewriteRule ^(.+)$ /index.html\? [L]
+RewriteCond %{REQUEST_URI} ^\/(\w+)$ [NC]
+RewriteRule ^(.+)$ /index.html [L]
