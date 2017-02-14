@@ -39,6 +39,7 @@
     </style>
     <script language="javascript" type="text/javascript">
     var phrase = window.location.pathname.substr(1) || "Disco";
+    phrase = decodeURIComponent(phrase);
     var t;
     var color = ["blue","yellow","lime","magenta","aqua","green","orange","crimson","royalblue","hotpink","indigo","dodgerblue","chartreuse","skyblue","red"];
     var bg = 0;
