@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -16,6 +14,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link type="image/x-icon" rel="shortcut icon" href="favico.ico" id="favicon">
     <style media="screen">
+        html, body{
+          height: 100%;
+        }
+
         body {
             font-family: "Comic Sans MS", sans-serif;
             color: green;
@@ -63,6 +65,8 @@
             audio = document.querySelector("audio").play();
             document.removeEventListener("touchstart", ts, false);
         }, false);
+
+        audioSetup();
     }, false);
 
 
@@ -103,6 +107,26 @@
         t = setTimeout(tick, 50);
     }
 
+    var invertedText = false;
+    function audioSetup(){
+      var audio_file = new Audio('http://fleo.se/music/disco.mp3');
+      audio_file.addEventListener('timeupdate', function(){
+        var buffer = .44;
+        if(this.currentTime > this.duration - buffer){
+            this.currentTime = 0;
+            this.play();
+
+            invertedText = !invertedText;
+            if(invertedText){
+              document.querySelector("body").style.transform = "scaleY(-1)";
+            }
+            else{
+              document.querySelector("body").style.transform = "scaleY(1)";
+            }
+      }}, false);
+      audio_file.play();
+    }
+
     function generateFavicon() {
     	ctx.fillStyle = window.getComputedStyle(document.body).backgroundColor;
     	ctx.fillRect(0, 0, 16, 16);
@@ -119,11 +143,6 @@
 
         This work is licensed under the Creative Commons Attribution-Noncommercial-Share Alike 2.5 Sweden License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/2.5/se/ or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
     -->
-    <audio preload="auto" autoplay="" loop="" volume="0.5">
-        <!--<source src="http://fleo.se/music/disco.ogg" type="audio/ogg">-->
-        <!--<source src="http://fleo.se/music/disco.aac" type="audio/aac">-->
-        <source src="http://fleo.se/music/disco.mp3" type="audio/mpeg">
-    </audio>
 </body>
 <!-- Google Analytics -->
 <script>
