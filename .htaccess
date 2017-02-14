@@ -1,0 +1,7 @@
+RewriteEngine on
+
+RewriteCond %{QUERY_STRING} ^name=(.+)$ [NC]
+RewriteRule ^(.*)$ http://disco.fleo.se/%1\? [NC]
+
+RewriteCond %{REQUEST_URI} ^/(\w+)$ [NC]
+RewriteRule ^(.+)$ /index.html\? [L]
