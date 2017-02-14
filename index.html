@@ -110,7 +110,7 @@
 
     var invertedText = false;
     function audioSetup(){
-      var audio_file = new Audio('http://fleo.se/music/disco.mp3');
+      var audio_file = new Audio('assets/disco.mp3');
       audio_file.addEventListener('timeupdate', function(){
         var buffer = .44;
         if(this.currentTime > this.duration - buffer){

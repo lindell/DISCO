@@ -3,5 +3,6 @@ RewriteEngine on
 RewriteCond %{QUERY_STRING} ^name=(.+)$ [NC]
 RewriteRule ^(.*)$ %{REQUEST_URI}%1\? [NC,R]
 
-RewriteCond %{REQUEST_URI} ^\/([\w\s]+)$ [NC]
+RewriteCond %{REQUEST_URI} !^\/assets [NC]
+RewriteCond %{REQUEST_URI} ^\/([\w\s\+]+)$ [NC]
 RewriteRule ^(.+)$ /index.html [L]
