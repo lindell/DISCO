@@ -71,10 +71,10 @@ function audioSetup(){
 
       invertedText = !invertedText;
       if(invertedText){
-        document.querySelector("body").style.transform = "scaleY(-1)";
+        document.querySelector(".text").style.transform = "scaleY(-1)";
       }
       else{
-        document.querySelector("body").style.transform = "scaleY(1)";
+        document.querySelector(".text").style.transform = "scaleY(1)";
       }
     }
   }, false);
