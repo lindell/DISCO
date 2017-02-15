@@ -47,8 +47,8 @@ var tick = function () {
   }
 
   var fs = Math.round(Math.random() * 30);
-  document.querySelector(".text-top").style.fontSize = fs + 10 + "vmin";
-  document.querySelector(".text-bottom").style.fontSize = 40 - fs + "vmin";
+  document.querySelector(".text-top").style.fontSize = (fs + 10) + "vmin";
+  document.querySelector(".text-bottom").style.fontSize = (40 - fs) + "vmin";
 
   document.title = document.title.substr(1) + document.title.substr(0, 1);
 
