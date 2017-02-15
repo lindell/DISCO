@@ -58,8 +58,8 @@
     window.addEventListener("load", function () {
         tick();
 
-				document.querySelector(".text-top").innerHTML = phrase;
-				document.querySelector(".text-bottom").innerHTML = phrase;
+				document.querySelector(".text-top").innerText = phrase;
+				document.querySelector(".text-bottom").innerText = phrase;
 
         let ts = document.addEventListener("touchstart", function () {
             // Make music playable on some mobile devices
@@ -110,7 +110,7 @@
 
     var invertedText = false;
     function audioSetup(){
-      var audio_file = new Audio('assets/disco.mp3');
+      var audio_file = new Audio('/assets/disco.mp3');
       audio_file.addEventListener('timeupdate', function(){
         var buffer = .44;
         if(this.currentTime > this.duration - buffer){
