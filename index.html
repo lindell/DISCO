@@ -92,11 +92,13 @@
 
           document.title = document.title.substr(1) + document.title.substr(0,1);
 
-          // Add vibrations on some devices?
-          window.navigator.vibrate(fs);
-
           t = setTimeout(tick, 50);
         }
+
+        // Add vibrations on some devices?
+        setInterval(function(){
+          window.navigator.vibrate(700);
+        }, 1000);
 
         var invertedText = false;
         function audioSetup(){
