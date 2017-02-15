@@ -52,19 +52,11 @@
         canvas.width = 16;canvas.height = 16;
         var ctx = canvas.getContext('2d');
 
-        var audio;
-
         window.addEventListener("load", function () {
           tick();
 
           document.querySelector(".text-top").innerText = phrase;
           document.querySelector(".text-bottom").innerText = phrase;
-
-          let ts = document.addEventListener("touchstart", function () {
-            // Make music playable on some mobile devices
-            audio = document.querySelector("audio").play();
-            document.removeEventListener("touchstart", ts, false);
-          }, false);
 
           audioSetup();
         }, false);
@@ -125,6 +117,12 @@
             }
           }, false);
           audio_file.play();
+
+          // Make music playable on some mobile devices
+          var ts = document.addEventListener("touchstart", function () {
+            audio_file.play();
+            document.removeEventListener("touchstart", ts);
+          });
         }
 
         function generateFavicon() {
