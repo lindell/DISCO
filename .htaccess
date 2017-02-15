@@ -1,9 +1,14 @@
 RewriteEngine on
+RewriteBase /
 
-RewriteCond %{QUERY_STRING} ^name=(.+)$ [NC]
+RewriteCond %{QUERY_STRING} ^name=(.*)$ [NC]
 RewriteRule ^(.*)$ %{REQUEST_URI}%1\? [NC,R]
 
-RewriteCond %{REQUEST_URI} !^\/assets [NC]
-RewriteCond %{REQUEST_URI} !^\/index\.html [NC]
-RewriteCond %{REQUEST_URI} ^\/.+$ [NC]
-RewriteRule ^(.+)$ /index.html [L]
+# If request is for file, skip next rule
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule (.*) - [S=1]
+
+# Send all requests (that are excepted by the condition above) to index.html
+RewriteCond %{REQUEST_URI} ^\/([^?].*)$ [NC]
+RewriteRule ^(.*)$ /index.html [L]
