@@ -1,10 +1,9 @@
 var phrase = window.location.pathname.substr(1) || "Disco";
 phrase = decodeURIComponent(phrase);
-var t;
-var color = ["blue","yellow","lime","magenta","aqua","green","orange","crimson","royalblue","hotpink","indigo","dodgerblue","chartreuse","skyblue","red"];
+var color = ["blue", "yellow", "lime", "magenta", "aqua", "green", "orange", "crimson", "royalblue", "hotpink", "indigo", "dodgerblue", "chartreuse", "skyblue", "red"];
 var bg = 0;
 var fg = 1;
-document.title = phrase + "-".repeat(Math.max(1, 31-phrase.length));
+document.title = phrase + "-".repeat(Math.max(1, 31 - phrase.length));
 
 var cursors = ["wait", "pointer", "help", "copy", "zoom-in", "zoom-out", "move"];
 var c = 0;
@@ -47,14 +46,14 @@ var tick = function () {
     browsers[k].setAttribute("content", window.getComputedStyle(document.body).backgroundColor);
   }
 
-  let fs = Math.round(Math.random()*30);
-  document.querySelector(".text-top").style.fontSize = fs+10+"vmin";
-  document.querySelector(".text-bottom").style.fontSize = 40-fs+"vmin";
+  var fs = Math.round(Math.random() * 30);
+  document.querySelector(".text-top").style.fontSize = fs + 10 + "vmin";
+  document.querySelector(".text-bottom").style.fontSize = 40 - fs + "vmin";
 
-  document.title = document.title.substr(1) + document.title.substr(0,1);
+  document.title = document.title.substr(1) + document.title.substr(0, 1);
 
-  t = setTimeout(tick, 50);
-}
+  setTimeout(tick, 50);
+};
 
 // Add vibrations on some devices?
 setInterval(function(){

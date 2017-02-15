@@ -1,0 +1,16 @@
+{
+  "env": {
+    "browser": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 5
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    "semi": [1, "always"],
+    "no-console": 2,
+    "indent": [1, 2],
+    "space-infix-ops": ["error"],
+    "comma-spacing": ["error"]
+  }
+}
