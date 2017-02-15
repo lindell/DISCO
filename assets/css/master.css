@@ -1,0 +1,21 @@
+html, body{
+  height: 100%;
+}
+
+body {
+  font-family: "Comic Sans MS", sans-serif;
+  color: green;
+  background: red;
+  font-size: 40vmin;
+  overflow: hidden;
+  text-align: center;
+  cursor: wait;
+}
+.text {
+  -webkit-user-select: none; /* Chrome/Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+
+  -o-user-select: none;
+  user-select: none;
+}
