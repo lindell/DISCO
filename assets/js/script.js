@@ -1,12 +1,12 @@
 var phrase = window.location.pathname.substr(1) || "Disco";
 phrase = decodeURIComponent(phrase);
 var color = ["blue", "yellow", "lime", "magenta", "aqua", "green", "orange", "crimson", "royalblue", "hotpink", "indigo", "dodgerblue", "chartreuse", "skyblue", "red"];
-var bg = 0;
-var fg = 1;
+var backgroundCounter = 0;
+var foregroundCounter = 1;
 document.title = phrase + "-".repeat(Math.max(1, 31 - phrase.length));
 
 var cursors = ["wait", "pointer", "help", "copy", "zoom-in", "zoom-out", "move"];
-var c = 0;
+var cursorCounter = 0;
 
 var canvas = document.createElement('canvas');
 canvas.width = 16;canvas.height = 16;
@@ -23,20 +23,20 @@ window.addEventListener("load", function () {
 
 
 var tick = function () {
-  document.body.style.backgroundColor = color[bg];
-  document.body.style.color = color[fg];
-  document.body.style.cursor = cursors[c];
+  document.body.style.backgroundColor = color[backgroundCounter];
+  document.body.style.color = color[foregroundCounter];
+  document.body.style.cursor = cursors[cursorCounter];
 
-  if (++bg >= color.length) {
-    bg = 0;
+  if (++backgroundCounter >= color.length) {
+    backgroundCounter = 0;
   }
 
-  if(++fg >= color.length){
-    fg = 0;
+  if(++foregroundCounter >= color.length){
+    foregroundCounter = 0;
   }
 
-  if(++c >= cursors.length){
-    c = 0;
+  if(++cursorCounter >= cursors.length){
+    cursorCounter = 0;
   }
 
   generateFavicon();
