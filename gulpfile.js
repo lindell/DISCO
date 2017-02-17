@@ -41,4 +41,4 @@ gulp.task('watch', ['html', 'css', 'js', 'assets'], function(){
   gulp.watch(assetsSrc, ['assets', browserSync.reload]);
 });
 
-gulp.task('default', [ 'html', 'css', 'js' ]);
+gulp.task('default', [ 'watch' ]);
