@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var minifyCSS = require('gulp-csso');
 var webpack = require('webpack-stream');
 var browserSync = require('browser-sync').create();
+var sass = require('gulp-sass');
 
 let htmlSrc = 'src/html/*.html';
 gulp.task('html', function(){
@@ -9,11 +10,12 @@ gulp.task('html', function(){
     .pipe(gulp.dest('./dist'));
 });
 
-let cssSrc = 'src/css/*.css';
-gulp.task('css', function(){
-  return gulp.src(cssSrc)
+let sassSrc = 'src/sass/*.sass';
+gulp.task('sass', function(){
+  return gulp.src(sassSrc)
+    .pipe(sass().on('error', sass.logError))
     .pipe(minifyCSS())
-    .pipe(gulp.dest('dist/css'))
+    .pipe(gulp.dest('dist/css/'))
     .pipe(browserSync.stream());
 });
 
@@ -30,13 +32,13 @@ gulp.task('assets', function(){
     .pipe(gulp.dest('dist/assets/'));
 });
 
-gulp.task('watch', ['html', 'css', 'js', 'assets'], function(){
+gulp.task('watch', ['html', 'sass', 'js', 'assets'], function(){
   browserSync.init({
     server: "./dist"
   });
 
   gulp.watch(htmlSrc, ['html', browserSync.reload]);
-  gulp.watch(cssSrc, ['css']);
+  gulp.watch(sassSrc, ['sass']);
   gulp.watch(jsSrc, ['js', browserSync.reload]);
   gulp.watch(assetsSrc, ['assets', browserSync.reload]);
 });
