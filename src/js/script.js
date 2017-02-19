@@ -48,6 +48,7 @@ function tick() {
 
   generateFavicon();
 
+  // Set color of different tab bars
   const browsers = document.querySelectorAll('.browser-color');
   for (let k = 0; k < browsers.length; k++) {
     browsers[k].setAttribute(
@@ -65,7 +66,7 @@ function tick() {
   setTimeout(tick, 50);
 }
 
-// Add vibrations on some devices?
+// Add vibrations on some devices
 setInterval(function() {
   window.navigator.vibrate(700);
 }, 1000);
