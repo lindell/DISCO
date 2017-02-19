@@ -3,10 +3,26 @@ var minifyCSS = require('gulp-csso');
 var webpack = require('webpack-stream');
 var browserSync = require('browser-sync').create();
 var sass = require('gulp-sass');
+const clean = require('gulp-clean');
+const inline = require('gulp-inline-source');
+const runSequence = require('run-sequence');
+
+gulp.task('clean', function(){
+  return gulp.src('dist', {read: false})
+    .pipe(clean());
+});
 
 let htmlSrc = 'src/html/*.html';
 gulp.task('html', function(){
   return gulp.src(htmlSrc)
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('html-inline', ['js', 'sass'], function(){
+  return gulp.src(htmlSrc)
+    .pipe(inline({
+      rootpath: './dist'
+    }))
     .pipe(gulp.dest('./dist'));
 });
 
@@ -41,6 +57,10 @@ gulp.task('watch', ['html', 'sass', 'js', 'assets'], function(){
   gulp.watch(sassSrc, ['sass']);
   gulp.watch(jsSrc, ['js', browserSync.reload]);
   gulp.watch(assetsSrc, ['assets', browserSync.reload]);
+});
+
+gulp.task('compile', function(done){
+  runSequence('clean', 'html-inline', done);
 });
 
 gulp.task('default', [ 'watch' ]);
