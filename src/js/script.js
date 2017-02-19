@@ -1,16 +1,17 @@
 var phrase = window.location.pathname.substr(1) || "Disco";
 phrase = decodeURIComponent(phrase);
-var color = ["blue", "yellow", "lime", "magenta", "aqua", "green", "orange", "crimson", "royalblue", "hotpink", "indigo", "dodgerblue", "chartreuse", "skyblue", "red"];
+const color = ["blue", "yellow", "lime", "magenta", "aqua", "green", "orange", "crimson", "royalblue", "hotpink", "indigo", "dodgerblue", "chartreuse", "skyblue", "red"];
 var backgroundCounter = 0;
 var foregroundCounter = 1;
 document.title = phrase + "-".repeat(Math.max(1, 31 - phrase.length));
 
-var cursors = ["wait", "pointer", "help", "copy", "zoom-in", "zoom-out", "move"];
+const cursors = ["wait", "pointer", "help", "copy", "zoom-in", "zoom-out", "move"];
 var cursorCounter = 0;
 
-var canvas = document.createElement('canvas');
-canvas.width = 16;canvas.height = 16;
-var ctx = canvas.getContext('2d');
+const canvas = document.createElement('canvas');
+canvas.width = 16;
+canvas.height = 16;
+const ctx = canvas.getContext('2d');
 
 window.addEventListener("load", function () {
   tick();
@@ -22,7 +23,7 @@ window.addEventListener("load", function () {
 }, false);
 
 
-var tick = function () {
+function tick() {
   document.body.style.backgroundColor = color[backgroundCounter];
   document.body.style.color = color[foregroundCounter];
   document.body.style.cursor = cursors[cursorCounter];
@@ -41,19 +42,19 @@ var tick = function () {
 
   generateFavicon();
 
-  var browsers = document.querySelectorAll(".browser-color");
+  const browsers = document.querySelectorAll(".browser-color");
   for (var k = 0; k < browsers.length; k++) {
     browsers[k].setAttribute("content", window.getComputedStyle(document.body).backgroundColor);
   }
 
-  var fs = Math.round(Math.random() * 30);
+  const fs = Math.round(Math.random() * 30);
   document.querySelector(".text-top").style.fontSize = (fs + 10) + "vmin";
   document.querySelector(".text-bottom").style.fontSize = (40 - fs) + "vmin";
 
   document.title = document.title.substr(1) + document.title.substr(0, 1);
 
   setTimeout(tick, 50);
-};
+}
 
 // Add vibrations on some devices?
 setInterval(function(){
@@ -62,9 +63,9 @@ setInterval(function(){
 
 var invertedText = false;
 function audioSetup(){
-  var audio_file = new Audio('/assets/disco.mp3');
+  const audio_file = new Audio('/assets/disco.mp3');
   audio_file.addEventListener('timeupdate', function(){
-    var buffer = .44;
+    const buffer = .44;
     if(this.currentTime > this.duration - buffer){
       this.currentTime = 0;
       this.play();
