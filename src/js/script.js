@@ -14,10 +14,10 @@ const cursors = [
 ];
 let cursorCounter = 0;
 
-const canvas = document.createElement('canvas');
-canvas.width = 16;
-canvas.height = 16;
-const ctx = canvas.getContext('2d');
+const faviconCanvas = document.createElement('canvas');
+faviconCanvas.width = 16;
+faviconCanvas.height = 16;
+const faviconCtx = faviconCanvas.getContext('2d');
 
 window.addEventListener('load', function() {
   tick();
@@ -97,11 +97,11 @@ function audioSetup() {
 }
 
 function generateFavicon() {
-  ctx.fillStyle = window.getComputedStyle(document.body).backgroundColor;
-  ctx.fillRect(0, 0, 16, 16);
+  faviconCtx.fillStyle = window.getComputedStyle(document.body).backgroundColor;
+  faviconCtx.fillRect(0, 0, 16, 16);
 
   document.getElementById('favicon').setAttribute(
     'href',
-    canvas.toDataURL('image/x-icon')
+    faviconCanvas.toDataURL('image/x-icon')
   );
 }
