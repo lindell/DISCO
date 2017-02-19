@@ -1,23 +1,29 @@
-var phrase = window.location.pathname.substr(1) || "Disco";
+let phrase = window.location.pathname.substr(1) || 'Disco';
 phrase = decodeURIComponent(phrase);
-const color = ["blue", "yellow", "lime", "magenta", "aqua", "green", "orange", "crimson", "royalblue", "hotpink", "indigo", "dodgerblue", "chartreuse", "skyblue", "red"];
-var backgroundCounter = 0;
-var foregroundCounter = 1;
-document.title = phrase + "-".repeat(Math.max(1, 31 - phrase.length));
+const color = [
+  'blue', 'yellow', 'lime', 'magenta', 'aqua', 'green', 'orange',
+  'crimson', 'royalblue', 'hotpink', 'indigo', 'dodgerblue', 'chartreuse',
+  'skyblue', 'red',
+];
+let backgroundCounter = 0;
+let foregroundCounter = 1;
+document.title = phrase + '-'.repeat(Math.max(1, 31 - phrase.length));
 
-const cursors = ["wait", "pointer", "help", "copy", "zoom-in", "zoom-out", "move"];
-var cursorCounter = 0;
+const cursors = [
+  'wait', 'pointer', 'help', 'copy', 'zoom-in', 'zoom-out', 'move',
+];
+let cursorCounter = 0;
 
 const canvas = document.createElement('canvas');
 canvas.width = 16;
 canvas.height = 16;
 const ctx = canvas.getContext('2d');
 
-window.addEventListener("load", function () {
+window.addEventListener('load', function() {
   tick();
 
-  document.querySelector(".text-top").innerText = phrase;
-  document.querySelector(".text-bottom").innerText = phrase;
+  document.querySelector('.text-top').innerText = phrase;
+  document.querySelector('.text-bottom').innerText = phrase;
 
   audioSetup();
 }, false);
@@ -32,24 +38,27 @@ function tick() {
     backgroundCounter = 0;
   }
 
-  if(++foregroundCounter >= color.length){
+  if (++foregroundCounter >= color.length) {
     foregroundCounter = 0;
   }
 
-  if(++cursorCounter >= cursors.length){
+  if (++cursorCounter >= cursors.length) {
     cursorCounter = 0;
   }
 
   generateFavicon();
 
-  const browsers = document.querySelectorAll(".browser-color");
-  for (var k = 0; k < browsers.length; k++) {
-    browsers[k].setAttribute("content", window.getComputedStyle(document.body).backgroundColor);
+  const browsers = document.querySelectorAll('.browser-color');
+  for (let k = 0; k < browsers.length; k++) {
+    browsers[k].setAttribute(
+      'content',
+      window.getComputedStyle(document.body).backgroundColor
+    );
   }
 
   const fs = Math.round(Math.random() * 30);
-  document.querySelector(".text-top").style.fontSize = (fs + 10) + "vmin";
-  document.querySelector(".text-bottom").style.fontSize = (40 - fs) + "vmin";
+  document.querySelector('.text-top').style.fontSize = (fs + 10) + 'vmin';
+  document.querySelector('.text-bottom').style.fontSize = (40 - fs) + 'vmin';
 
   document.title = document.title.substr(1) + document.title.substr(0, 1);
 
@@ -57,34 +66,33 @@ function tick() {
 }
 
 // Add vibrations on some devices?
-setInterval(function(){
+setInterval(function() {
   window.navigator.vibrate(700);
 }, 1000);
 
-var invertedText = false;
-function audioSetup(){
-  const audio_file = new Audio('/assets/disco.mp3');
-  audio_file.addEventListener('timeupdate', function(){
+let invertedText = false;
+function audioSetup() {
+  const audioFile = new Audio('/assets/disco.mp3');
+  audioFile.addEventListener('timeupdate', function() {
     const buffer = .44;
-    if(this.currentTime > this.duration - buffer){
+    if (this.currentTime > this.duration - buffer) {
       this.currentTime = 0;
       this.play();
 
       invertedText = !invertedText;
-      if(invertedText){
-        document.querySelector(".text").style.transform = "scaleY(-1)";
-      }
-      else{
-        document.querySelector(".text").style.transform = "scaleY(1)";
+      if (invertedText) {
+        document.querySelector('.text').style.transform = 'scaleY(-1)';
+      } else {
+        document.querySelector('.text').style.transform = 'scaleY(1)';
       }
     }
   }, false);
-  audio_file.play();
+  audioFile.play();
 
   // Make music playable on some mobile devices
-  var ts = document.addEventListener("touchstart", function () {
-    audio_file.play();
-    document.removeEventListener("touchstart", ts);
+  let ts = document.addEventListener('touchstart', function() {
+    audioFile.play();
+    document.removeEventListener('touchstart', ts);
   });
 }
 
@@ -92,5 +100,8 @@ function generateFavicon() {
   ctx.fillStyle = window.getComputedStyle(document.body).backgroundColor;
   ctx.fillRect(0, 0, 16, 16);
 
-  document.getElementById("favicon").setAttribute("href", canvas.toDataURL("image/x-icon"));
+  document.getElementById('favicon').setAttribute(
+    'href',
+    canvas.toDataURL('image/x-icon')
+  );
 }
