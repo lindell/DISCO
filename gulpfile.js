@@ -1,33 +1,33 @@
-var gulp = require('gulp');
-var minifyCSS = require('gulp-csso');
-var webpack = require('webpack-stream');
-var browserSync = require('browser-sync').create();
-var sass = require('gulp-sass');
+let gulp = require('gulp');
+let minifyCSS = require('gulp-csso');
+let webpack = require('webpack-stream');
+let browserSync = require('browser-sync').create();
+let sass = require('gulp-sass');
 const clean = require('gulp-clean');
 const inline = require('gulp-inline-source');
 const runSequence = require('run-sequence');
 
-gulp.task('clean', function(){
+gulp.task('clean', function() {
   return gulp.src('dist', {read: false})
     .pipe(clean());
 });
 
 let htmlSrc = 'src/html/*.html';
-gulp.task('html', function(){
+gulp.task('html', function() {
   return gulp.src(htmlSrc)
     .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('html-inline', ['js', 'sass'], function(){
+gulp.task('html-inline', ['js', 'sass', 'assets'], function() {
   return gulp.src(htmlSrc)
     .pipe(inline({
-      rootpath: './dist'
+      rootpath: './dist',
     }))
     .pipe(gulp.dest('./dist'));
 });
 
 let sassSrc = 'src/sass/*.sass';
-gulp.task('sass', function(){
+gulp.task('sass', function() {
   return gulp.src(sassSrc)
     .pipe(sass().on('error', sass.logError))
     .pipe(minifyCSS())
@@ -36,21 +36,21 @@ gulp.task('sass', function(){
 });
 
 let jsSrc = 'src/js/script.js';
-gulp.task('js', function(){
+gulp.task('js', function() {
   return gulp.src(jsSrc)
     .pipe(webpack(require('./webpack.config.js')))
     .pipe(gulp.dest('dist/js/'));
 });
 
 let assetsSrc = 'src/assets/*';
-gulp.task('assets', function(){
+gulp.task('assets', function() {
   return gulp.src(assetsSrc)
     .pipe(gulp.dest('dist/assets/'));
 });
 
-gulp.task('watch', ['html', 'sass', 'js', 'assets'], function(){
+gulp.task('watch', ['html', 'sass', 'js', 'assets'], function() {
   browserSync.init({
-    server: "./dist"
+    server: './dist',
   });
 
   gulp.watch(htmlSrc, ['html', browserSync.reload]);
@@ -59,8 +59,8 @@ gulp.task('watch', ['html', 'sass', 'js', 'assets'], function(){
   gulp.watch(assetsSrc, ['assets', browserSync.reload]);
 });
 
-gulp.task('compile', function(done){
+gulp.task('compile', function(done) {
   runSequence('clean', 'html-inline', done);
 });
 
-gulp.task('default', [ 'watch' ]);
+gulp.task('default', ['watch']);
