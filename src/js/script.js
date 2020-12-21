@@ -1,3 +1,5 @@
+const discoMusic = require('../assets/disco.mp3');
+
 let phrase = window.location.pathname.substr(1) || 'Disco';
 phrase = decodeURIComponent(phrase);
 const color = [
@@ -73,7 +75,7 @@ setInterval(function() {
 
 let invertedText = false;
 function audioSetup() {
-  const audioFile = new Audio('/assets/disco.mp3');
+  const audioFile = new Audio(discoMusic);
   audioFile.addEventListener('timeupdate', function() {
     const buffer = .44;
     if (this.currentTime > this.duration - buffer) {
@@ -91,7 +93,7 @@ function audioSetup() {
   audioFile.play();
 
   // Make music playable on some mobile devices
-  let ts = document.addEventListener('touchstart', function() {
+  const ts = document.addEventListener('touchstart', function() {
     audioFile.play();
     document.removeEventListener('touchstart', ts);
   });
