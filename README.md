@@ -1,8 +1,19 @@
 # DISCO
-Hosted at [disco.fleo.se](http://disco.fleo.se) - SEIZURE WARNING!
+
+This might be the most annoying website. Hosted at [disco.fleo.se](https://disco.fleo.se) - **SEIZURE WARNING!**
+
+You can show a custom text by adding it to the url like so: <https://disco.fleo.se/Custom%20Text>
 
 ### Development
-1. `git clone` the directory
-2. `npm install` to install all dependencies
-3. `npm install gulp-cli -g` to install gulp
-4. `gulp` to run the development server
+
+Install all dependencies:
+
+```sh
+npm install
+```
+
+Run local development server:
+
+```
+npm run start
+```
