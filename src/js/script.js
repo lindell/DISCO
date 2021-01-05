@@ -55,7 +55,7 @@ function tick() {
   for (let k = 0; k < browsers.length; k++) {
     browsers[k].setAttribute(
       'content',
-      window.getComputedStyle(document.body).backgroundColor
+      window.getComputedStyle(document.body).backgroundColor,
     );
   }
 
@@ -74,13 +74,13 @@ setInterval(function() {
 }, 1000);
 
 let invertedText = false;
-function audioSetup() {
+async function audioSetup() {
   const audioFile = new Audio(discoMusic);
   audioFile.addEventListener('timeupdate', function() {
     const buffer = .44;
-    if (this.currentTime > this.duration - buffer) {
-      this.currentTime = 0;
-      this.play();
+    if (audioFile.currentTime > audioFile.duration - buffer) {
+      audioFile.currentTime = 0;
+      audioFile.play();
 
       invertedText = !invertedText;
       if (invertedText) {
@@ -90,13 +90,42 @@ function audioSetup() {
       }
     }
   }, false);
-  audioFile.play();
 
-  // Make music playable on some mobile devices
-  const ts = document.addEventListener('touchstart', function() {
-    audioFile.play();
-    document.removeEventListener('touchstart', ts);
-  });
+  const events = ['touchstart', 'click', 'keydown'];
+
+  function playUnmuteAudio() {
+    audioFile.muted = false;
+
+    // The muted play might have failed, then play it now.
+    if (audioFile.paused) {
+      /*
+        Note: For some reason Firefox still might fail here, but only on key
+        events if a special key is pressed (e.g. Control, Shift, etc).
+      */
+      audioFile.play();
+    }
+
+    // Remove all the event listeners.
+    events.forEach((event) => {
+      document.removeEventListener(event, playUnmuteAudio);
+    });
+  }
+
+  try {
+    // Try to play unmuted audio.
+    await audioFile.play();
+  } catch (error) {
+    // If playing the unmuted audio fails, mute it and play it.
+    audioFile.muted = true;
+
+    // Unmute it on any user interaction.
+    events.forEach((event) => {
+      document.addEventListener(event, playUnmuteAudio);
+    });
+
+    // This might still fail, maybe third time's the charm in `playUnmuteAudio`.
+    await audioFile.play();
+  }
 }
 
 function generateFavicon() {
@@ -105,6 +134,6 @@ function generateFavicon() {
 
   document.getElementById('favicon').setAttribute(
     'href',
-    faviconCanvas.toDataURL('image/x-icon')
+    faviconCanvas.toDataURL('image/x-icon'),
   );
 }
