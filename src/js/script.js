@@ -21,7 +21,7 @@ faviconCanvas.width = 16;
 faviconCanvas.height = 16;
 const faviconCtx = faviconCanvas.getContext('2d');
 
-const events = ['touchstart', 'click', 'keydown'];
+const events = ['touchend', 'click', 'keydown'];
 
 window.addEventListener('load', function() {
   tick();
