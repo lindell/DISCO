@@ -11,7 +11,8 @@ const color = [
 ];
 let backgroundCounter = 0;
 let foregroundCounter = 1;
-document.title = limit(phrase, 30, '-') + '-';
+let title = limit(phrase, 30, '-') + '-';
+document.title = title;
 
 const cursors = [
   'wait', 'pointer', 'help', 'copy', 'zoom-in', 'zoom-out', 'move',
@@ -65,7 +66,8 @@ function tick() {
   document.querySelector('.text-top').style.fontSize = (fs + 10) + 'vmin';
   document.querySelector('.text-bottom').style.fontSize = (40 - fs) + 'vmin';
 
-  document.title = substr(document.title, 1) + substr(document.title, 0, 1);
+  title = substr(title, 1) + substr(title, 0, 1);
+  document.title = title;
 
   setTimeout(tick, 50);
 }
