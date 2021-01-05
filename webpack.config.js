@@ -22,7 +22,7 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [
-              ['@babel/preset-env', {targets: 'defaults', useBuiltIns: 'usage', corejs: 3}],
+              ['@babel/preset-env', {useBuiltIns: 'usage', corejs: 3}],
             ],
           },
         },
@@ -38,11 +38,7 @@ module.exports = {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
-                plugins: [
-                  [
-                    'postcss-preset-env',
-                  ],
-                ],
+                plugins: [['postcss-preset-env']],
               },
             },
           },
