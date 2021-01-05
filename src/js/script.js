@@ -95,7 +95,7 @@ function vibrate(event) {
 
 
 let invertedText = false;
-async function audioSetup() {
+function audioSetup() {
   const audioFile = new Audio(discoMusic);
   audioFile.addEventListener('timeupdate', function() {
     const buffer = .44;
@@ -130,21 +130,23 @@ async function audioSetup() {
     });
   }
 
-  try {
-    // Try to play unmuted audio.
-    await audioFile.play();
-  } catch (error) {
-    // If playing the unmuted audio fails, mute it and play it.
-    audioFile.muted = true;
+  audioFile.addEventListener('canplaythrough', async() => {
+    try {
+      // Try to play unmuted audio.
+      await audioFile.play();
+    } catch (error) {
+      // If playing the unmuted audio fails, mute it and play it.
+      audioFile.muted = true;
 
-    // Unmute it on any user interaction.
-    events.forEach((event) => {
-      document.addEventListener(event, playUnmuteAudio);
-    });
+      // Unmute it on any user interaction.
+      events.forEach((event) => {
+        document.addEventListener(event, playUnmuteAudio);
+      });
 
-    // This might still fail, maybe third time's the charm in `playUnmuteAudio`.
-    await audioFile.play();
-  }
+      // This might still fail, maybe third time's the charm in playUnmuteAudio.
+      await audioFile.play();
+    }
+  });
 }
 
 function generateFavicon() {
