@@ -124,10 +124,12 @@ function audioSetup() {
       await audioFile.play().catch(() => undefined);
     }
 
-    // Remove all the event listeners.
-    events.forEach((event) => {
-      document.removeEventListener(event, playUnmuteAudio);
-    });
+    if (!audioFile.paused) {
+    // If it's playing, remove all the event listeners.
+      events.forEach((event) => {
+        document.removeEventListener(event, playUnmuteAudio);
+      });
+    }
   }
 
   audioFile.addEventListener('canplaythrough', async() => {
