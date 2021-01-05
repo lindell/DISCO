@@ -21,8 +21,11 @@ faviconCanvas.width = 16;
 faviconCanvas.height = 16;
 const faviconCtx = faviconCanvas.getContext('2d');
 
+const events = ['touchstart', 'click', 'keydown'];
+
 window.addEventListener('load', function() {
   tick();
+  vibrate();
 
   document.querySelector('.text-top').innerText = phrase;
   document.querySelector('.text-bottom').innerText = phrase;
@@ -68,10 +71,28 @@ function tick() {
   setTimeout(tick, 50);
 }
 
-// Add vibrations on some devices
-setInterval(function() {
-  window.navigator.vibrate(700);
-}, 1000);
+function vibrate(event) {
+  // Vibrate for 700 ms. Returns a bool if the vibration was successful or not.
+  const success = window.navigator.vibrate(700);
+
+  if (event !== undefined) {
+    // Remove the event listeners after an event has happened.
+    events.forEach((eventType) => {
+      document.removeEventListener(eventType, vibrate);
+    });
+  }
+
+  if (!success) {
+    // If vibrate failed, try again after a user interaction.
+    events.forEach((eventType) => {
+      document.addEventListener(eventType, vibrate);
+    });
+  } else {
+    // If successful, vibrate again after 1 second.
+    setTimeout(vibrate, 1000);
+  }
+}
+
 
 let invertedText = false;
 async function audioSetup() {
@@ -90,8 +111,6 @@ async function audioSetup() {
       }
     }
   }, false);
-
-  const events = ['touchstart', 'click', 'keydown'];
 
   function playUnmuteAudio() {
     audioFile.muted = false;
