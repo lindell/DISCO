@@ -1,3 +1,5 @@
+import {limit, substr} from 'stringz';
+
 const discoMusic = require('../assets/disco.mp3');
 
 let phrase = window.location.pathname.substr(1) || 'Disco';
@@ -9,7 +11,7 @@ const color = [
 ];
 let backgroundCounter = 0;
 let foregroundCounter = 1;
-document.title = phrase + '-'.repeat(Math.max(1, 31 - phrase.length));
+document.title = limit(phrase, 30, '-') + '-';
 
 const cursors = [
   'wait', 'pointer', 'help', 'copy', 'zoom-in', 'zoom-out', 'move',
@@ -55,7 +57,7 @@ function tick() {
   for (let k = 0; k < browsers.length; k++) {
     browsers[k].setAttribute(
       'content',
-      window.getComputedStyle(document.body).backgroundColor
+      window.getComputedStyle(document.body).backgroundColor,
     );
   }
 
@@ -63,7 +65,7 @@ function tick() {
   document.querySelector('.text-top').style.fontSize = (fs + 10) + 'vmin';
   document.querySelector('.text-bottom').style.fontSize = (40 - fs) + 'vmin';
 
-  document.title = document.title.substr(1) + document.title.substr(0, 1);
+  document.title = substr(document.title, 1) + substr(document.title, 0, 1);
 
   setTimeout(tick, 50);
 }
@@ -105,6 +107,6 @@ function generateFavicon() {
 
   document.getElementById('favicon').setAttribute(
     'href',
-    faviconCanvas.toDataURL('image/x-icon')
+    faviconCanvas.toDataURL('image/x-icon'),
   );
 }
