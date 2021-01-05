@@ -112,7 +112,7 @@ function audioSetup() {
     }
   }, false);
 
-  function playUnmuteAudio() {
+  async function playUnmuteAudio() {
     audioFile.muted = false;
 
     // The muted play might have failed, then play it now.
@@ -121,7 +121,7 @@ function audioSetup() {
         Note: For some reason Firefox still might fail here, but only on key
         events if a special key is pressed (e.g. Control, Shift, etc).
       */
-      audioFile.play();
+      await audioFile.play().catch(() => undefined);
     }
 
     // Remove all the event listeners.
@@ -144,7 +144,7 @@ function audioSetup() {
       });
 
       // This might still fail, maybe third time's the charm in playUnmuteAudio.
-      await audioFile.play();
+      await audioFile.play().catch(() => undefined);
     }
   });
 }
