@@ -21,8 +21,11 @@ faviconCanvas.width = 16;
 faviconCanvas.height = 16;
 const faviconCtx = faviconCanvas.getContext('2d');
 
+const events = ['touchend', 'click', 'keydown'];
+
 window.addEventListener('load', function() {
   tick();
+  vibrate();
 
   document.querySelector('.text-top').innerText = phrase;
   document.querySelector('.text-bottom').innerText = phrase;
@@ -55,7 +58,7 @@ function tick() {
   for (let k = 0; k < browsers.length; k++) {
     browsers[k].setAttribute(
       'content',
-      window.getComputedStyle(document.body).backgroundColor
+      window.getComputedStyle(document.body).backgroundColor,
     );
   }
 
@@ -68,19 +71,37 @@ function tick() {
   setTimeout(tick, 50);
 }
 
-// Add vibrations on some devices
-setInterval(function() {
-  window.navigator.vibrate(700);
-}, 1000);
+function vibrate(event) {
+  // Vibrate for 700 ms. Returns a bool if the vibration was successful or not.
+  const success = window.navigator.vibrate(700);
+
+  if (event !== undefined) {
+    // Remove the event listeners after an event has happened.
+    events.forEach((eventType) => {
+      document.removeEventListener(eventType, vibrate);
+    });
+  }
+
+  if (!success) {
+    // If vibrate failed, try again after a user interaction.
+    events.forEach((eventType) => {
+      document.addEventListener(eventType, vibrate);
+    });
+  } else {
+    // If successful, vibrate again after 1 second.
+    setTimeout(vibrate, 1000);
+  }
+}
+
 
 let invertedText = false;
 function audioSetup() {
   const audioFile = new Audio(discoMusic);
   audioFile.addEventListener('timeupdate', function() {
     const buffer = .44;
-    if (this.currentTime > this.duration - buffer) {
-      this.currentTime = 0;
-      this.play();
+    if (audioFile.currentTime > audioFile.duration - buffer) {
+      audioFile.currentTime = 0;
+      audioFile.play();
 
       invertedText = !invertedText;
       if (invertedText) {
@@ -90,12 +111,43 @@ function audioSetup() {
       }
     }
   }, false);
-  audioFile.play();
 
-  // Make music playable on some mobile devices
-  const ts = document.addEventListener('touchstart', function() {
-    audioFile.play();
-    document.removeEventListener('touchstart', ts);
+  async function playUnmuteAudio() {
+    audioFile.muted = false;
+
+    // The muted play might have failed, then play it now.
+    if (audioFile.paused) {
+      /*
+        Note: For some reason Firefox still might fail here, but only on key
+        events if a special key is pressed (e.g. Control, Shift, etc).
+      */
+      await audioFile.play().catch(() => {});
+    }
+
+    if (!audioFile.paused) {
+    // If it's playing, remove all the event listeners.
+      events.forEach((event) => {
+        document.removeEventListener(event, playUnmuteAudio);
+      });
+    }
+  }
+
+  audioFile.addEventListener('canplaythrough', async() => {
+    try {
+      // Try to play unmuted audio.
+      await audioFile.play();
+    } catch (error) {
+      // If playing the unmuted audio fails, mute it and play it.
+      audioFile.muted = true;
+
+      // Unmute it on any user interaction.
+      events.forEach((event) => {
+        document.addEventListener(event, playUnmuteAudio);
+      });
+
+      // This might still fail, maybe third time's the charm in playUnmuteAudio.
+      await audioFile.play().catch(() => {});
+    }
   });
 }
 
@@ -105,6 +157,6 @@ function generateFavicon() {
 
   document.getElementById('favicon').setAttribute(
     'href',
-    faviconCanvas.toDataURL('image/x-icon')
+    faviconCanvas.toDataURL('image/x-icon'),
   );
 }

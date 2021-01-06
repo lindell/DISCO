@@ -4,7 +4,8 @@
     "node": true
   },
   "parserOptions": {
-    "ecmaVersion": 6
+    "sourceType": "module",
+    "ecmaVersion": 8
   },
   "extends": ["eslint:recommended", "google"],
   "rules": {
