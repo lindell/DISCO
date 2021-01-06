@@ -42,6 +42,11 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "core-js": "^3.8.2",
+    "regenerator-runtime": "^0.13.7",
     "stringz": "^2.1.0"
-  }
+  },
+  "browserslist": [
+    "defaults"
+  ]
 }
