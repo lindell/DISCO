@@ -1,3 +1,5 @@
+import {limit, substr} from 'stringz';
+
 const discoMusic = require('../assets/disco.mp3');
 
 let phrase = window.location.pathname.substr(1) || 'Disco';
@@ -9,7 +11,8 @@ const color = [
 ];
 let backgroundCounter = 0;
 let foregroundCounter = 1;
-document.title = phrase + '-'.repeat(Math.max(1, 31 - phrase.length));
+let title = limit(phrase, 30, '-') + '-';
+document.title = title;
 
 const cursors = [
   'wait', 'pointer', 'help', 'copy', 'zoom-in', 'zoom-out', 'move',
@@ -66,7 +69,8 @@ function tick() {
   document.querySelector('.text-top').style.fontSize = (fs + 10) + 'vmin';
   document.querySelector('.text-bottom').style.fontSize = (40 - fs) + 'vmin';
 
-  document.title = document.title.substr(1) + document.title.substr(0, 1);
+  title = substr(title, 1) + substr(title, 0, 1);
+  document.title = title;
 
   setTimeout(tick, 50);
 }
