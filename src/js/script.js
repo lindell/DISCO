@@ -121,7 +121,7 @@ function audioSetup() {
         Note: For some reason Firefox still might fail here, but only on key
         events if a special key is pressed (e.g. Control, Shift, etc).
       */
-      await audioFile.play().catch(() => undefined);
+      await audioFile.play().catch(() => {});
     }
 
     if (!audioFile.paused) {
@@ -146,7 +146,7 @@ function audioSetup() {
       });
 
       // This might still fail, maybe third time's the charm in playUnmuteAudio.
-      await audioFile.play().catch(() => undefined);
+      await audioFile.play().catch(() => {});
     }
   });
 }
