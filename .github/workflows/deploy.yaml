@@ -26,6 +26,9 @@ jobs:
           npm ci
           npm run build
 
+      - name: "404"
+        run: cp dist/index.html dist/404.html
+
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Upload artifact
