@@ -28,7 +28,9 @@ const events = ['touchend', 'click', 'keydown'];
 
 window.addEventListener('load', function() {
   tick();
-  vibrate();
+  try {
+    vibrate();
+  } catch {}
 
   document.querySelector('.text-top').innerText = phrase;
   document.querySelector('.text-bottom').innerText = phrase;
